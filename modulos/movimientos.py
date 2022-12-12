@@ -3,8 +3,11 @@ Modulo que contiene las funciones relacionadas con el movimientos de las piezas 
 '''
 # ---------- IMPORTACIONES ----------
 import sys
+from data.piezas_ajedrez import *
 
 # ---------- VARIABLES ----------
+#diccionario de la coordenadas del tablero a las posiciones en la lista
+FILAS = {'1':1,'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8} 
 COLUMNAS = {'A':1, 'B':2, 'C':3, 'D':4, 'E':5, 'F':6, 'G':7, 'H':8}
 
 # ---------- FUNCIONES ----------
@@ -20,16 +23,20 @@ def guardar_tablero(tablero):
     '''
     Guarda el tablero en el archivo log_mov.txt
     '''
-    # Redireccionamos la salida estandar a un archivo
-    sys.stdout = open("data/log_movimientos.txt", "a", encoding="utf-8") # -- AÑADIR TEXTO (append) en el archivo seleccionado
+    with open("data/partida_ajedrez.txt", "a", encoding="utf-8") as archivo:
+        for fila in tablero:
+            i+=1
+            lista_texto = [] # lista donde vamos a guardar el texto de cada fila
+            lista_texto.append(str(i)+' ') # número de fila
+            for casilla in fila:
+                lista_texto.append(casilla+' ')
+                lista_texto.append(' ') # 1 espacio entre casillas
 
-    # -- esto es lo que se va a imprimir en el archivo .txt
-    imprimir_tablero(tablero)
-    # -- fin de lo que se va a imprimir en archivo .txt
-
-    # Cerramos el archivo
-    sys.stdout.close()
-
+            archivo.writelines(lista_texto) # escribimos la lista en el archivo
+            archivo.writelines('\n') # salto de línea para la siguiente fila de texto
+        archivo.writelines('\n') # salto de línea para la siguiente fila de texto
+        archivo.close()
+     
 
 def elegir_pieza_a_mover(tablero):
     '''
@@ -44,16 +51,16 @@ def elegir_pieza_a_mover(tablero):
     '''
     while True:
         entrada = input("Introduce la posición de la pieza que deseas mover: ") #tupla (col, fil)
-        try:
-            fila = int(entrada[1]) # 1,2, ..., 8
+        if entrada[0] in 'ABCDEFGHabcdefgh' and entrada[1] in '12345678':
+            fila = FILAS[ entrada[1] ] # 1,2, ..., 8
             columna = COLUMNAS[ entrada[0].upper() ] # A, B, ..., H
             if tablero[fila][columna] != ' ': # si en la casilla hay una pieza
                 print("Has elegido la pieza: ", tablero[fila][columna])
                 return fila, columna , entrada # seleccionamos la pieza OUTPUT
             else:
-                print("No hay ninguna pieza en esa casilla. Elige otra vez.")
-        except:
-            print("Error. Introduce un número válido.")
+                    print("No hay ninguna pieza en esa casilla. Elige otra vez.")
+        else:
+            print("Entrada no válida. Elige otra vez.")
 
 def elegir_casilla_donde_mover(tablero):
     '''
@@ -68,16 +75,16 @@ def elegir_casilla_donde_mover(tablero):
     '''
     while True:
         entrada = input("Introduce la posición de la casilla a la que deseas mover la pieza: ")
-        try:
-            fila = int(entrada[1]) # 1,2, ..., 8
+        if entrada[0] in 'ABCDEFGHabcdefgh' and entrada[1] in '12345678':
+            fila = FILAS[ entrada[1] ] # 1,2, ..., 8
             columna = COLUMNAS[ entrada[0].upper() ] # A, B, ..., H
             if tablero[fila][columna] == ' ': # si la casilla está vacía
                 return fila, columna, entrada # nos podemos mover ahí OPUTPUT
             else:
                 print("En esta casilla ya hay una pieza. Elige otra vez.")
-        except:
-            print("Error. Introduce un número válido.")
 
+        else:
+            print("Entrada no válida. Elige otra vez.")
 
 def mover_pieza(tablero, fila, columna, fil_nueva, col_nueva):
     '''
