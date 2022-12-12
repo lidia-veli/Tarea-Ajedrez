@@ -15,7 +15,7 @@ def JuegoAjedrez():
     print()
     print('~~ Bienvenido al juego de ajedrez ~~')
     print('Los movimientos se introducen en formato algebraico, e.g: a2, b3, c4, ...')
-    imprimir_tablero(tablero_inicial) # tablero con marcas
+    imprimir_tablero(tablero_inicial)
     print()
 
     guardar_tablero(tablero_inicial) # guardamos el tablero inicial en el archivo
