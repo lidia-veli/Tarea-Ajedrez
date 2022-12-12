@@ -1,1 +1,1 @@
-__all__=['juego_ajedrez']
+__all__ = ['juego_ajedrez']
