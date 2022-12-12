@@ -2,7 +2,6 @@
 Modulo que contiene las funciones relacionadas con el movimientos de las piezas del ajedrez
 '''
 # ---------- IMPORTACIONES ----------
-import sys
 from data.piezas_ajedrez import *
 
 # ---------- VARIABLES ----------
@@ -115,11 +114,9 @@ def pedir_movimiento_a_visualizar(mensaje, MOVIMIENTOS):
         entrada = input(mensaje)    
         try:
             entrada = int(entrada)
-            if 0<entrada<len(MOVIMIENTOS):
+            if 0 <= entrada <= len(MOVIMIENTOS):
                 return entrada
             else:
-                print("Error. Introduce un número válido.")
+                print("Este número no corresponde a un movimiento.")
         except:
             print("Error. Introduce un número válido.")
-
-
