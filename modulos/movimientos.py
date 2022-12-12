@@ -1,14 +1,16 @@
 '''
-Modulo para el manejo de movimientos de las piezas del ajedrez
+Modulo que contiene las funciones relacionadas con el movimientos de las piezas del ajedrez
 '''
 # ---------- IMPORTACIONES ----------
 import sys
 
 # ---------- VARIABLES ----------
+COLUMNAS = {'A':1, 'B':2, 'C':3, 'D':4, 'E':5, 'F':6, 'G':7, 'H':8}
 
 # ---------- FUNCIONES ----------
 
 def imprimir_tablero(tablero):
+    print()
     for fila in tablero:
         for casilla in fila:
             print(casilla, end=' ')
@@ -40,15 +42,17 @@ def elegir_pieza_a_mover(tablero):
         columna: int -- columna donde está la pieza
     '''
     while True:
+        entrada = input("Introduce la posición de la pieza que deseas mover: ") #tupla (col, fil)
         try:
-            fila = int(input("Elige la fila de la pieza: "))
-            columna = int(input("Elige la columna de la pieza: "))
-            if tablero[fila][columna] != ' ': # si hay una pieza en esa casilla
-                return fila, columna # 
+            fila = int(entrada[1]) # 1,2, ..., 8
+            columna = COLUMNAS[ entrada[0].upper() ] # A, B, ..., H
+            if tablero[fila][columna] != ' ': # si en la casilla hay una pieza
+                print("Has elegido la pieza: ", tablero[fila][columna])
+                return fila, columna # seleccionamos la pieza OUTPUT
             else:
-                print("No hay ninguna pieza en esa casilla")
+                print("No hay ninguna pieza en esa casilla. Elige otra vez.")
         except:
-            print("Error. Introduce un número válido")
+            print("Error. Introduce un número válido.")
 
 def elegir_casilla_donde_mover(tablero):
     '''
@@ -61,15 +65,16 @@ def elegir_casilla_donde_mover(tablero):
         columna: int -- columna de la casilla
     '''
     while True:
+        entrada = input("Introduce la posición de la casilla a la que deseas mover la pieza: ")
         try:
-            fila = int(input("Elige la fila de la pieza: "))
-            columna = int(input("Elige la columna de la pieza: "))
+            fila = int(entrada[1]) # 1,2, ..., 8
+            columna = COLUMNAS[ entrada[0].upper() ] # A, B, ..., H
             if tablero[fila][columna] == ' ': # si la casilla está vacía
-                return fila, columna  # nos podemos mover ahí
+                return fila, columna  # nos podemos mover ahí OPUTPUT
             else:
-                print("En esta casilla ya hay una pieza")
+                print("En esta casilla ya hay una pieza. Elige otra vez.")
         except:
-            print("Error. Introduce un número válido")
+            print("Error. Introduce un número válido.")
 
 
 def mover_pieza(tablero, fila, columna, fil_nueva, col_nueva):
@@ -88,3 +93,25 @@ def mover_pieza(tablero, fila, columna, fil_nueva, col_nueva):
     tablero[fil_nueva][col_nueva] = tablero[fila][columna] #movemos la pieza a la nueva casilla
     tablero[fila][columna] = ' ' # y la casilla en la que estaba antes la dejamos vacía
     return tablero
+
+def preguntar_que_movimiento_visualizar(mensaje, MOVIMIENTOS):
+    '''
+    Funcion que pregunta al usuario que tablero de los jugados quiere revisualizar
+    -INPUT-----
+    entrada: str -- entrada del usuario
+    movements: list -- lista de tableros que se han acumulado a lo largo del juego
+    
+    -OUTPUT-----
+    entrada: int -- entrada del usuario convertida a entero'''
+    while True:
+        entrada = input(mensaje)    
+        try:
+            entrada = int(entrada)
+            if 0<entrada<len(MOVIMIENTOS):
+                return entrada
+            else:
+                print("Error. Introduce un número válido.")
+        except:
+            print("Error. Introduce un número válido.")
+
+
