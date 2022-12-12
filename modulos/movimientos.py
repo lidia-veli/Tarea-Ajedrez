@@ -40,6 +40,7 @@ def elegir_pieza_a_mover(tablero):
     (fila, columna): tuple 
         fila: int -- fila donde está la pieza
         columna: int -- columna donde está la pieza
+        entrada: str -- entrada del usuario
     '''
     while True:
         entrada = input("Introduce la posición de la pieza que deseas mover: ") #tupla (col, fil)
@@ -48,7 +49,7 @@ def elegir_pieza_a_mover(tablero):
             columna = COLUMNAS[ entrada[0].upper() ] # A, B, ..., H
             if tablero[fila][columna] != ' ': # si en la casilla hay una pieza
                 print("Has elegido la pieza: ", tablero[fila][columna])
-                return fila, columna # seleccionamos la pieza OUTPUT
+                return fila, columna , entrada # seleccionamos la pieza OUTPUT
             else:
                 print("No hay ninguna pieza en esa casilla. Elige otra vez.")
         except:
@@ -63,6 +64,7 @@ def elegir_casilla_donde_mover(tablero):
     (fila, columna): tuple 
         fila: int -- fila de la casilla
         columna: int -- columna de la casilla
+        entrada: str -- entrada del usuario
     '''
     while True:
         entrada = input("Introduce la posición de la casilla a la que deseas mover la pieza: ")
@@ -70,7 +72,7 @@ def elegir_casilla_donde_mover(tablero):
             fila = int(entrada[1]) # 1,2, ..., 8
             columna = COLUMNAS[ entrada[0].upper() ] # A, B, ..., H
             if tablero[fila][columna] == ' ': # si la casilla está vacía
-                return fila, columna  # nos podemos mover ahí OPUTPUT
+                return fila, columna, entrada # nos podemos mover ahí OPUTPUT
             else:
                 print("En esta casilla ya hay una pieza. Elige otra vez.")
         except:
@@ -94,7 +96,7 @@ def mover_pieza(tablero, fila, columna, fil_nueva, col_nueva):
     tablero[fila][columna] = ' ' # y la casilla en la que estaba antes la dejamos vacía
     return tablero
 
-def preguntar_que_movimiento_visualizar(mensaje, MOVIMIENTOS):
+def pedir_movimiento_a_visualizar(mensaje, MOVIMIENTOS):
     '''
     Funcion que pregunta al usuario que tablero de los jugados quiere revisualizar
     -INPUT-----

@@ -1,1 +1,1 @@
-__all__ = ['mov']
+__all__ = ['movimientos', 'booleano']
